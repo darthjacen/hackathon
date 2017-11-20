@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>My first three.js app</title>
+		<title>Hackathon - Modern Art Generator</title>
 		<style>
 			body { margin: 0; }
 			canvas { width: 100%; height: 100% }
@@ -25,39 +25,57 @@
 			camera.position.z = 20;
 
 			const animate = function () {
-				requestAnimationFrame( animate );
-
-				cube.rotation.x += 0.01;
-				cube.rotation.y += 0.01;
-				camera.rotation.y = 90 * Math.PI / 180;
+				setTimeout(function() {
+					requestAnimationFrame( animate );
+				}, 1000 / 20);
+				
+				if(camera.position.z >= 75){
+					camera.position.z = 75;
+				} else{
+					camera.position.z += 0.3;
+				
+				}
+					createArt();
+				
 				renderer.render(scene, camera);
 			};
 
-			document.addEventListener('click', (event) => {
-				posOrNeg = Math.random();
-				let x,y,z;
-				if(posOrNeg < 0.25){
-					x = Math.floor(Math.random() * 20)
-					y = Math.floor(Math.random() * 20)
-					z = - Math.floor(Math.random() * 20)
-				} else if (posOrNeg >= 0.25 && posOrNeg < 0.5){
-					x = - Math.floor(Math.random() * 20)
-					y = - Math.floor(Math.random() * 20)
-					z = - Math.floor(Math.random() * 20)
-				} else if (posOrNeg >= 0.5 && posOrNeg < 0.75){
-					x = - Math.floor(Math.random() * 20)
-					y = Math.floor(Math.random() * 20)
-					z = Math.floor(Math.random() * 20)
-				} else if (posOrNeg >= 0.75 && posOrNeg < 1){
-					x = Math.floor(Math.random() * 20)
-					y = - Math.floor(Math.random() * 20)
-					z = Math.floor(Math.random() * 20)
+			function getRandomColor() {
+				var letters = '0123456789ABCDEF';
+				var color = '#';
+				for (var i = 0; i < 6; i++) {
+					color += letters[Math.floor(Math.random() * 16)];
+				}
+				return color;
 				}
 
-				const newCube = new THREE.Mesh( geometry, material );
+			 function createArt(){
+				posOrNeg = Math.random();
+				const geometry2 = new THREE.BoxGeometry( Math.floor(Math.random() * 15), Math.floor(Math.random() * 15), Math.floor(Math.random() * 15) );
+				let x,y,z;
+				const material2 = new THREE.MeshBasicMaterial(  {color: getRandomColor() });
+				if(posOrNeg < 0.25){
+					x = Math.floor(Math.random() * 50)
+					y = Math.floor(Math.random() * 50)
+					z = - Math.floor(Math.random() * 50)
+				} else if (posOrNeg >= 0.25 && posOrNeg < 0.5){
+					x = - Math.floor(Math.random() * 50)
+					y = - Math.floor(Math.random() * 50)
+					z = - Math.floor(Math.random() * 50)
+				} else if (posOrNeg >= 0.5 && posOrNeg < 0.75){
+					x = - Math.floor(Math.random() * 50)
+					y = Math.floor(Math.random() * 50)
+					z = Math.floor(Math.random() * 50)
+				} else if (posOrNeg >= 0.75 && posOrNeg < 1){
+					x = Math.floor(Math.random() * 50)
+					y = - Math.floor(Math.random() * 50)
+					z = Math.floor(Math.random() * 50)
+				}
+
+				const newCube = new THREE.Mesh( geometry2, material2 );
 				scene.add(newCube);
 				newCube.position.set(x,y,1);
-			});
+			};
 
 
 			animate();
